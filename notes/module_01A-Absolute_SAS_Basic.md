@@ -192,3 +192,102 @@ SAS has two basic variable types
 | --------- | ----------- | -------------------------------------- |
 | Numeric   | numbers     | `age`, `weight`, `eligible`            |
 | Character | text/string | `sample_id`, `region`, `assigned_mode` |
+
+
+When creating data manually use `$` for character variables.
+
+```{sas}
+input sample_id $ region $ age weight;
+```
+
+This means
+
+```
+sample_id = character
+region = character
+age = numeric
+weight = numeric
+```
+
+important ID should be character 
+
+
+## 7. What is `LENGTH`?
+
+`LENGTH` tells SAS how much space to reserve for character variables
+
+Example:
+
+```{sas}
+data sample_file;
+    length sample_id $8 region $12 assigned_mode $8;
+    input sample_id $ region $ assigned_mode $ eligible;
+    datalines;
+S001 Northeast Web 1
+S002 Midwest Mail 1
+S003 South Phone 0
+;
+run;
+```
+
+Why use `LENGTH`?
+
+Because SAS can otherwise guess short lengths and truncate text
+
+For example, if SAS first sees `"Web"`, it may think the variable only needs 3 chracters. later `"Telephone"` can be truncated.
+
+## 8. What is `PROC PRINT`?
+
+`PROC PRINT` shows the data.
+
+```{sas}
+proc print data=sample_file;
+run;
+```
+
+R equivalent
+
+```{r}
+print(sample_file)
+```
+
+To print only first 5 rows:
+
+```{sas}
+proc print data=sample_file(obs=5);
+```
+
+## 9. What is `PROC CONTENTS`?
+
+`PROC CONTENTS` show the structure of the dataset.
+
+```{sas}
+proc contents data=sample_file;
+run;
+```
+
+it tells you
+
+```
+variable names
+variable types
+variable lengths
+number of rows
+labels/formats if present
+```
+
+R equivalent
+
+```{r}
+str(sample_file)
+```
+
+## 10. What is `PROC FREQ`?
+
+`PROC FREQ` giives the frequency for categorical variables.
+
+```{sas}
+proc freq data=sample_file;
+    tables region assigned_mode / missing;
+run;
+```

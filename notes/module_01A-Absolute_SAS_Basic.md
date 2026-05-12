@@ -291,3 +291,31 @@ proc freq data=sample_file;
     tables region assigned_mode / missing;
 run;
 ```
+
+R equivalent
+
+```{r}
+table(sample_file$region, useNA = "ifany")
+```
+
+`/missing` tells SAS to include missing values in the table.
+
+## 11. What is `PROC MEANS`?
+
+`PROC MEANS` summarizes numeric variables
+
+```{sas}
+proc means data=sample_file n mean min max;
+    var weight;
+run;
+```
+
+This gives 
+
+```
+proc means data=sample_file n mean min max;
+    var weight;
+run;
+```
+
+R equivalent function is summary()
